@@ -1,0 +1,37 @@
+<idea-plugin>
+  <id>cn.yzl.kotlin.ex.click</id>
+  <name>KotlinExOnClickPlugin</name>
+  <version>1.0</version>
+  <vendor email="zeliangyi@gmail.com" url="https://github.com/yizeliang">GitHub</vendor>
+
+  <description><![CDATA[
+      kotlin-android-extensions view.setonclickLisetener fast.<br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      1.0 base function.<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="143.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.lang</depends>
+  <depends>org.jetbrains.kotlin</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+    <action class="cn.yzl.kotlin.ex.click.InjectAction" id="InjectionAction"
+            text="KotlinExOnClickPlugin)"
+    >
+      <add-to-group group-id="GenerateGroup"/>
+    </action>
+  </actions>
+
+</idea-plugin>
