@@ -1,4 +1,4 @@
 **暂时没有完善README 先给张图,实在没时间**
 
 
-![使用](http://t1.aixinxi.net/o_1c24518k7rpm50cklu1qgj1so6a.gif)
+![EX](https://i.loli.net/2017/12/24/5a3f92ca222d7.gif)
