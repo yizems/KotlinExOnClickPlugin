@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>cn.yzl.kotlin.ex.click</id>
   <name>KotlinExOnClickPlugin</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="zeliangyi@gmail.com" url="https://github.com/yizeliang">GitHub</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      1.2 add import layout&android.view.View.<br>
       1.1 alter function to base.<br>
       1.0 base function.<br>
     ]]>

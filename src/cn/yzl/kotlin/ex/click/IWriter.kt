@@ -1,12 +1,10 @@
 package cn.yzl.kotlin.ex.click
 
 import cn.yzl.kotlin.ex.click.model.Element
-import cn.yzl.kotlin.ex.click.util.KtUtils
 import cn.yzl.kotlin.ex.click.util.Utils
 import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElementFactory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import org.jetbrains.kotlin.idea.caches.resolve.resolveImportReference
@@ -21,12 +19,12 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class IWriter(protected var mProject: Project, protected var mFile: PsiFile, protected var mClass: KtClass,
               private val types: List<Element>,
-              protected var mFactory: PsiElementFactory, var layoutName: String?, vararg files: PsiFile)
+              var layoutName: String?)
     : WriteCommandAction.Simple<Any>(mProject, mFile) {
-    protected var ktPsiFactory: KtPsiFactory
+    var ktPsiFactory: KtPsiFactory
 
     init {
-        ktPsiFactory = KtPsiFactory(mClass.project)
+        ktPsiFactory = KtPsiFactory(mProject, false)
     }
 
     @Throws(Throwable::class)
@@ -35,7 +33,7 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
 
         createCode()
 
-        //重新格式化代码
+//        重新格式化代码
         styleManager.optimizeImports(mFile)
         styleManager.shortenClassReferences(mClass)
         ReformatCodeProcessor(mProject, mClass.containingFile, null, false).runWithoutProgress()
@@ -92,8 +90,25 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
             }
         }
         if (!Utils.isEmptyString(layoutName)) {
-            KtUtils.insertImports(mClass.containingKtFile, "kotlinx.android.synthetic.main.${layoutName}.*")
+            insertImports(mClass.containingKtFile, "kotlinx.android.synthetic.main.${layoutName}.${types[0].id}")
+            insertImports(mClass.containingKtFile, "android.view.View")
         }
+    }
+
+    fun insertImports(ktFile: KtFile, path: String) {
+        ktFile.importList
+        val importList = ktFile.importDirectives
+        for (importDirective in importList) {
+            val importPath = importDirective.importPath
+            if (importPath != null) {
+                val pathStr = importPath.pathStr
+                if (pathStr == path) {
+                    return
+                }
+            }
+        }
+        ImportInsertHelper.getInstance(mProject)
+                .importDescriptor(ktFile, ktFile.resolveImportReference(FqName(path)).iterator().next(), false)
     }
 
 

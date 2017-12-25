@@ -87,7 +87,7 @@ class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateActi
     }
 
     fun createCode(psiFile: PsiFile, psiClass: KtClass, types: List<Element>) {
-        IWriter(psiFile.project, psiFile, psiClass, types, JavaPsiFacade.getElementFactory(psiClass.project),laoutName).execute()
+        IWriter(psiFile.project, psiFile, psiClass, types,laoutName).execute()
     }
 
     private fun getPsiClassFromEvent(editor: Editor?): KtClass? {
