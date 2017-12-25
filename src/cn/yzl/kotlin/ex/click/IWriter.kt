@@ -32,11 +32,10 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
         val styleManager = JavaCodeStyleManager.getInstance(mProject)
 
         createCode()
-
-//        重新格式化代码
-        styleManager.optimizeImports(mFile)
-        styleManager.shortenClassReferences(mClass)
-        ReformatCodeProcessor(mProject, mClass.containingFile, null, false).runWithoutProgress()
+//       重新格式化代码
+//        styleManager.optimizeImports(mFile)
+//        styleManager.shortenClassReferences(mClass)
+        ReformatCodeProcessor(mProject, mFile, null, false).run()
     }
 
     private fun createCode() {
