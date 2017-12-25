@@ -1,6 +1,8 @@
 package cn.yzl.kotlin.ex.click
 
 import cn.yzl.kotlin.ex.click.model.Element
+import cn.yzl.kotlin.ex.click.util.KtUtils
+import cn.yzl.kotlin.ex.click.util.Utils
 import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
@@ -13,13 +15,14 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtPsiFactory
-import java.util.*
 
 /**
  * Created by YZL on 2017/8/14.
  */
-class IWriter(protected var mProject: Project, protected var mFile: PsiFile, protected var mClass: KtClass, private val types: List<Element>,
-              protected var mFactory: PsiElementFactory, vararg files: PsiFile) : WriteCommandAction.Simple<Any>(mProject, mFile) {
+class IWriter(protected var mProject: Project, protected var mFile: PsiFile, protected var mClass: KtClass,
+              private val types: List<Element>,
+              protected var mFactory: PsiElementFactory, var layoutName: String?, vararg files: PsiFile)
+    : WriteCommandAction.Simple<Any>(mProject, mFile) {
     protected var ktPsiFactory: KtPsiFactory
 
     init {
@@ -88,28 +91,10 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
 
             }
         }
-    }
-
-    /**
-     * 导包
-     *
-     * @param ktFile
-     * @param set
-     */
-    private fun insertImports(ktFile: KtFile, set: HashSet<String>) {
-        // Check if already imported Parcel and Parcelable
-        for (path in set) {
-            val importList = ktFile.importDirectives
-            for (importDirective in importList) {
-                val importPath = importDirective.importPath
-                if (importPath != null) {
-                    val pathStr = importPath.pathStr
-                    if (pathStr != path) {
-                        ImportInsertHelper.getInstance(ktFile.project)
-                                .importDescriptor(ktFile, ktFile.resolveImportReference(FqName(path)).iterator().next(), false)
-                    }
-                }
-            }
+        if (!Utils.isEmptyString(layoutName)) {
+            KtUtils.insertImports(mClass.containingKtFile, "kotlinx.android.synthetic.main.${layoutName}.*")
         }
     }
+
+
 }

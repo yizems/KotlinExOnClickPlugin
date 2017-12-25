@@ -21,6 +21,8 @@ import java.awt.Toolkit
 
 class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateAction(handler) {
 
+    var laoutName: String? = null;
+
     override fun isValidForClass(targetClass: PsiClass?): Boolean {
         return true
     }
@@ -36,6 +38,7 @@ class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateActi
     }
 
     override fun actionPerformedImpl(project: Project, editor: Editor?) {
+        laoutName = null
         val file = PsiUtilBase.getPsiFileInEditor(editor!!, project)
         var layout = Utils.getLayoutFileFromCaret(editor, file)
 
@@ -43,7 +46,7 @@ class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateActi
             Utils.showErrorNotification(project, "layout not found")
             return
         }
-//
+        laoutName = layout.name.replace(".xml", "")
         var elements = Utils.getIDsFromLayout(layout)
 //        var elements=ArrayList<Element>().apply {
 //            add(Element("测试1","tvOne"))
@@ -59,6 +62,7 @@ class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateActi
     private fun showDialog(project: Project, editor: Editor, elements: ArrayList<Element>) {
         val file = PsiUtilBase.getPsiFileInEditor(editor, project)
         var ktClass: KtClass? = getPsiClassFromEvent(editor)
+
         if (ktClass == null || file == null) {
             return
         }
@@ -83,7 +87,7 @@ class InjectAction(handler: CodeInsightActionHandler? = null) : BaseGenerateActi
     }
 
     fun createCode(psiFile: PsiFile, psiClass: KtClass, types: List<Element>) {
-        IWriter(psiFile.project, psiFile, psiClass, types, JavaPsiFacade.getElementFactory(psiClass.project)).execute()
+        IWriter(psiFile.project, psiFile, psiClass, types, JavaPsiFacade.getElementFactory(psiClass.project),laoutName).execute()
     }
 
     private fun getPsiClassFromEvent(editor: Editor?): KtClass? {

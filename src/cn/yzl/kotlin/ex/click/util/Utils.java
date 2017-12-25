@@ -30,11 +30,11 @@ import org.jetbrains.kotlin.descriptors.ClassDescriptor;
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor;
 import org.jetbrains.kotlin.descriptors.TypeParameterDescriptor;
 import org.jetbrains.kotlin.descriptors.ValueParameterDescriptor;
+import org.jetbrains.kotlin.idea.util.ImportInsertHelper;
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation;
-import org.jetbrains.kotlin.psi.KtClass;
-import org.jetbrains.kotlin.psi.KtElement;
-import org.jetbrains.kotlin.psi.KtParameter;
-import org.jetbrains.kotlin.psi.KtProperty;
+import org.jetbrains.kotlin.name.FqName;
+import org.jetbrains.kotlin.psi.*;
+import org.jetbrains.kotlin.resolve.ImportPath;
 import org.jetbrains.kotlin.resolve.lazy.ResolveSession;
 
 import java.util.ArrayList;
@@ -71,7 +71,6 @@ public class Utils {
                 System.out.println(ktParameter);
             }
         }
-
 
 
         List<ValueParameterDescriptor> valueParameters = new ArrayList<ValueParameterDescriptor>();
@@ -216,7 +215,6 @@ public class Utils {
      */
     public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements) {
         file.accept(new XmlRecursiveElementVisitor() {
-
             @Override
             public void visitElement(final PsiElement element) {
                 super.visitElement(element);
@@ -335,6 +333,7 @@ public class Utils {
         }
         return cnt;
     }
+
     /**
      * Easier way to check if string is empty
      *
@@ -344,5 +343,4 @@ public class Utils {
     public static boolean isEmptyString(String text) {
         return (text == null || text.trim().length() == 0);
     }
-
 }
