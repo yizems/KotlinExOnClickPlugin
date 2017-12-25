@@ -87,7 +87,7 @@ public class IWriter extends WriteCommandAction.Simple {
             //创建 设置函数
             StringBuilder builder = new StringBuilder();
 
-            builder.append("private fun initViewClickListeners() {");
+            builder.append("override fun initViewClickListeners() {");
 
             for (int i = 0; i < types.size(); i++) {
                 Element element = types.get(i);

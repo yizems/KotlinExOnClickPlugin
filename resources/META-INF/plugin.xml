@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>cn.yzl.kotlin.ex.click</id>
   <name>KotlinExOnClickPlugin</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <vendor email="zeliangyi@gmail.com" url="https://github.com/yizeliang">GitHub</vendor>
 
   <description><![CDATA[
@@ -9,6 +9,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      1.1 alter function to base.<br>
       1.0 base function.<br>
     ]]>
   </change-notes>
@@ -28,7 +29,7 @@
   <actions>
     <!-- Add your actions here -->
     <action class="cn.yzl.kotlin.ex.click.InjectAction" id="InjectionAction"
-            text="KotlinExOnClickPlugin)"
+            text="KotlinExOnClickPlugin"
     >
       <add-to-group group-id="GenerateGroup"/>
     </action>
