@@ -203,7 +203,6 @@ public class Utils {
      */
     public static ArrayList<Element> getIDsFromLayout(final PsiFile file) {
         final ArrayList<Element> elements = new ArrayList<Element>();
-
         return getIDsFromLayout(file, elements);
     }
 
@@ -213,7 +212,8 @@ public class Utils {
      * @param file
      * @return
      */
-    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements) {
+    public static ArrayList<Element> getIDsFromLayout(final PsiFile file, final ArrayList<Element> elements
+    ) {
         file.accept(new XmlRecursiveElementVisitor() {
             @Override
             public void visitElement(final PsiElement element) {
@@ -228,11 +228,8 @@ public class Utils {
                         if (layout != null) {
                             Project project = file.getProject();
                             PsiFile include = findLayoutResource(file, project, getLayoutName(layout.getValue()));
-
-
                             if (include != null) {
                                 getIDsFromLayout(include, elements);
-
                                 return;
                             }
                         }
@@ -256,7 +253,7 @@ public class Utils {
                     }
 
                     try {
-                        elements.add(new Element(name, value));
+                        elements.add(new Element(name, value, file.getName().replace(".xml", "")));
                     } catch (IllegalArgumentException e) {
                         // TODO log
                     }

@@ -18,7 +18,10 @@ public class Element {
     public boolean used = true;
     public boolean isOptional = false;
 
-    public Element(String name, String id) {
+    public String layoutName;//没有 .xml后缀
+
+    public Element(String name, String id, String layoutName) {
+        this.layoutName = layoutName;
         // id
         final Matcher matcher = sIdPattern.matcher(id);
         if (matcher.find() && matcher.groupCount() > 0) {

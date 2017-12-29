@@ -6,7 +6,6 @@ import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import org.jetbrains.kotlin.idea.caches.resolve.resolveImportReference
 import org.jetbrains.kotlin.idea.util.ImportInsertHelper
 import org.jetbrains.kotlin.name.FqName
@@ -18,8 +17,7 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  * Created by YZL on 2017/8/14.
  */
 class IWriter(protected var mProject: Project, protected var mFile: PsiFile, protected var mClass: KtClass,
-              private val types: List<Element>,
-              var layoutName: String?)
+              private val types: List<Element>)
     : WriteCommandAction.Simple<Any>(mProject, mFile) {
     var ktPsiFactory: KtPsiFactory
 
@@ -29,13 +27,9 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
 
     @Throws(Throwable::class)
     override fun run() {
-        val styleManager = JavaCodeStyleManager.getInstance(mProject)
-
         createCode()
 //       重新格式化代码
-//        styleManager.optimizeImports(mFile)
-//        styleManager.shortenClassReferences(mClass)
-        ReformatCodeProcessor(mProject, mFile, null, false).run()
+        ReformatCodeProcessor(mProject, mFile, null, true).run()
     }
 
     private fun createCode() {
@@ -88,9 +82,11 @@ class IWriter(protected var mProject: Project, protected var mFile: PsiFile, pro
 
             }
         }
-        if (!Utils.isEmptyString(layoutName)) {
-            insertImports(mClass.containingKtFile, "kotlinx.android.synthetic.main.${layoutName}.${types[0].id}")
-            insertImports(mClass.containingKtFile, "android.view.View")
+        insertImports(mClass.containingKtFile, "android.view.View")
+        types.forEach {
+            if (!Utils.isEmptyString(it.layoutName)) {
+                insertImports(mClass.containingKtFile, "kotlinx.android.synthetic.main.${it.layoutName}.${it.id}")
+            }
         }
     }
 
