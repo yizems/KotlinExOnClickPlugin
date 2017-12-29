@@ -1,4 +1,26 @@
-**暂时没有完善README 先给张图,实在没时间**
+
+使用说明
+--------
+
+- 在BaseActivity/BaseFragment中定义好方法
+
+```kotlin
+//实现View.OnClickListener接口
+abstract class BaseActivity : PermissionActivity(), View.OnClickListener {
+    override fun onCreate(savedInstanceState: Bundle?) {
+		setContentView(R.layout.xxx)
+		
+        initViewClickListeners()
+    }
+    //改方法一定要确保被调用,否则无法生效,可以看后面生成的代码,其实特别容易理解,当然这个方法也可以不写在base里, 其实该插件只是帮你生成了代码而已,并没有做任何其他的事情
+    open fun initViewClickListeners() {}
+
+}
+
+
+```
+
+在fragment中 一定要在onStart()方法之后调用initViewClickListeners,不了解的可以百度一下
 
 
 
@@ -7,6 +29,7 @@
 
 更新日志
 -------
+- 1.3 支持 include 的布局自动导入
 
 - 1.2 加入自动导包功能
 
