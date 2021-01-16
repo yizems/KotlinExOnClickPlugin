@@ -1,4 +1,10 @@
 
+
+# 该库过时
+
+如果是旧项目,并且使用 `kotlin-android-extension` ,可以继续使用,如果 是新项目,建议使用`ViewBinding` 替代 `kotlin-android-extension`;
+
+
 使用说明
 --------
 
